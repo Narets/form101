@@ -1,15 +1,19 @@
 <form  [formGroup]="formGroup" (ngSubmit)="onSubmit(formGroup)" >
   <div>
     <input type="text" formControlName="firstName" placeholder="first Name">
+    <label style="color: tomato" *ngIf = "formGroup.get('firstName').invalid && formGroup.get('firstName').errors['required']">required</label>
   </div>
    <div>
      <input type="text" formControlName="lastName" placeholder="last Name">
+     <label style="color: tomato" *ngIf = "formGroup.get('lastName').invalid && formGroup.get('lastName').errors['required']">required</label>
    </div>
    <div>
     <input type="text" formControlName="email" placeholder="Email">
+    <label style="color: tomato" *ngIf = "formGroup.get('email').invalid && formGroup.get('email').errors['email']">required</label>
   </div>
   <div>
-    <input type="number" formControlName="age" placeholder="Age">
+    <input type="number" formControlName="age" placeholder="Age" min="0" max="99">
+    <label style="color:tomato;" *ngIf="formGroup.get('age').invalid && formGroup.get('age').touched && (formGroup.get('age').errors['min']||formGroup.get('age').errors['max'])">Between is 0 and 99</label>
   </div>
    <div>
      <button >Submit</button>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import { User } from '../user';
 
 @Component({
@@ -8,26 +8,51 @@ import { User } from '../user';
   styleUrls: ['./form01.component.scss']
 })
 export class Form01Component implements OnInit {
-   formGroup: FormGroup;
-  constructor(    
-    private formBulid : FormBuilder
-    ) 
-    { }
-
-  ngOnInit() {
-    this.formGroup = this.formBulid.group({
-     firstName: [''],
-     lastName:[''],
-     email:[''],
-     age:['']
-    })
-   }
-
-   onSubmit(form: FormGroup){
-     console.log(form);
-     const {firstName, lastName, email, age} = form.value;
-     const user = new User(firstName,lastName,email,age);
-     console.log(user);
-   }
-
-}
+  
+    // formBuild:FormBuilder; //ภายนอกใช้ชื่อเต็ม ภายในใช้ชื่อย่อ
+    formGroup: FormGroup;
+    constructor( // ของใน constructor ไม่สามารถนำออกมาข้างนอกได้
+      private formBuild: FormBuilder
+    ) {
+      // this.formBuild = fb; // สร้างชื่อขึ้นมาเพื่อเอาไว้เก็บค่า
+    }
+  
+    ngOnInit() {
+      this.formGroup = this.formBuild.group({
+        firstName: ['', [Validators.required, Validators.minLength(2)]],
+        lastName: ['', [Validators.required, Validators.minLength(2)]],
+        email: ['', [this.emailValidator]],
+        age: []
+      })
+    }
+  
+    emailValidator(control: AbstractControl) {
+      const value: string = control.value;
+      if (value && value.includes('@')) {
+        return null;
+      }
+      return {
+        email: true
+      }
+    }
+  
+    onSubmit(form: FormGroup) {
+      console.log(form.valid, form.invalid); //valid,invalid จะไม่มีทางเป็น true ทั้งคู่หรือ false ทั้งคู่
+      console.log((<FormControl>form.get('firstName')).errors);
+  
+      if (!form.invalid) {
+        const { firstName, lastName, email, age } = form.value;
+        const user = new User(firstName, lastName, email, age);
+        console.log(user);
+      } else {
+        [
+          'firstName',
+          'lastName',
+          'email',
+          'age'].forEach((key: string) => {
+            console.log(form.get(key).errors);
+            form.get(key).markAsTouched();
+          })
+      }
+    }
+  }
