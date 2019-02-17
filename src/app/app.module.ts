@@ -3,14 +3,12 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import {FormsModule,ReactiveFormsModule} from '@angular/forms';
-import { COMPONENTComponent } from './component/component.component';
-import { FormComponent } from './form/form.component';
+import { Form01Component } from './form01/form01.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    COMPONENTComponent,
-    FormComponent
+    Form01Component
   ],
   imports: [
     BrowserModule,
