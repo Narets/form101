@@ -12,8 +12,9 @@
     <label style="color: tomato" *ngIf = "formGroup.get('email').invalid && formGroup.get('email').errors['email']">required</label>
   </div>
   <div>
-    <input type="number" formControlName="age" placeholder="Age" min="0" max="99">
-    <label style="color:tomato;" *ngIf="formGroup.get('age').invalid && formGroup.get('age').touched && (formGroup.get('age').errors['min']||formGroup.get('age').errors['max'])">Between is 0 and 99</label>
+    <input type="number" min="0" max="99" formControlName="age" placeholder="Age" >
+    <label style="color:tomato;" *ngIf="formGroup.get('age').invalid && formGroup.get('age').touched
+     && (formGroup.get('age').errors['min'] || formGroup.get('age').errors['max'])">Between is 0 and 99</label>
   </div>
    <div>
      <button >Submit</button>
